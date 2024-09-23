@@ -55,9 +55,15 @@ def add_to_cart(cart, product, quantity):
     cart.append(new_product)
 
 def display_cart(cart):
-    print("Your Cart:")
+    total_cost = 0
+    output = ""
     for item in cart:
-        print(f"Product: {item['product']}, Quantity: {item['quantity']}")
+        name, price, quantity = item
+        cost = price * quantity
+        total_cost += cost
+        output += f"{name} - ${price} x {quantity} = ${cost}\n"
+    output += f"Total cost: ${total_cost}"
+    print(output)
 
 def generate_receipt(name, email, cart, total_cost, address):
     print("Receipt:")
