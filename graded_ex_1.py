@@ -44,8 +44,9 @@ def display_sorted_products(products_list, sort_order):
         print(f"Product Name: {product['name']}, Price: ${product['price']}")
 
 def display_products(products_list):
-    for i, product in enumerate(products_list):
-        print(f"{i+1}. {product[0]} - ${product[1]}")
+    for index, product in enumerate(products_list, start=1):
+        name, price = product
+        print(f"{index}. {name}: {price}")
 
 def display_categories():
     categories = ["IT Products", "Electronics", "Groceries"]
