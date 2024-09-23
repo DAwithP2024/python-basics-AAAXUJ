@@ -45,16 +45,15 @@ def display_products(products_list):
 
 def display_categories():
     categories = ["IT Products", "Electronics", "Groceries"]
-    print(categories)
+    print("Select a category:")
+    for i, category in enumerate(categories):
+        print(f"{i + 1}. {category}")
+
     while True:
-        print("Available categories:")
-        for i, category in enumerate(categories, start=1):
-            print(f"{i}. {category}")
-        
         try:
-            choice = int(input("Enter the number corresponding to the category you want to explore: "))
+            choice = int(input("Enter the number of the category: "))
             if 1 <= choice <= len(categories):
-                return categories[choice - 1]
+                return choice - 1
             else:
                 print("Invalid choice. Please enter a valid number.")
         except ValueError:
@@ -69,13 +68,6 @@ def display_cart(cart):
     print("Your Cart:")
     for item in cart:
         print(f"Product: {item['product']}, Quantity: {item['quantity']}")
-
-    total_cost = 0
-    for item in cart:
-        total_cost += item['price'] * item['quantity']
-
-    address = input("Please enter your delivery address: ")
-    return total_cost, address
 
 def generate_receipt(name, email, cart, total_cost, address):
     print("Receipt:")
