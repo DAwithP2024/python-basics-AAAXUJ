@@ -32,16 +32,11 @@ products = {
 
 
 def display_sorted_products(products_list, sort_order):
-    if sort_order == 'ascending':
-        sorted_products = sorted(products_list, key=lambda x: x['price'])
-    elif sort_order == 'descending':
-        sorted_products = sorted(products_list, key=lambda x: x['price'], reverse=True)
-    else:
-        print("Invalid sort order.")
-        return
-
-    for product in sorted_products:
-        print(f"Product Name: {product['name']}, Price: ${product['price']}")
+    if sort_order == "asc":
+        sorted_products = sorted(products_list, key=lambda x: x[1])
+    elif sort_order == "desc":
+        sorted_products = sorted(products_list, key=lambda x: x[1], reverse=True)
+    return sorted_products
 
 def display_products(products_list):
     for index, product in enumerate(products_list, start=1):
@@ -66,7 +61,10 @@ def display_categories():
             print("Please enter a valid number.")
     
 def add_to_cart(cart, product, quantity):
-    cart[product] = cart.get(product, 0) + quantity
+    name, price = product
+    new_product = (name, price, quantity)
+    cart.append(new_product)
+
 def display_cart(cart):
     print("Your Cart:")
     for item in cart:
