@@ -32,37 +32,119 @@ products = {
 
 
 def display_sorted_products(products_list, sort_order):
-    pass
-
+    if sort_order == "asc":
+        sorted_products = sorted(products_list, key=lambda x: x[1])
+    elif sort_order == "desc":
+        sorted_products = sorted(products_list, key=lambda x: x[1], reverse=True)
+    return sorted_products
 
 def display_products(products_list):
-    pass
-
+    for index, product in enumerate(products_list, start=1):
+        name, price = product
+        print(f"{index}. {name}: {price}")
 
 def display_categories():
-    pass
-
-
+    categories = ["IT Products", "Electronics", "Groceries"]
+    print("Select a category:")
+    for i, category in enumerate(categories):
+        print(f"{i + 1}. {category}")
+    
 def add_to_cart(cart, product, quantity):
-    pass
+    name, price = product
+    new_product = (name, price, quantity)
+    cart.append(new_product)
 
 def display_cart(cart):
-    pass
-
+    total_cost = 0
+    output = ""
+    for item in cart:
+        name, price, quantity = item
+        cost = price * quantity
+        total_cost += cost
+        output += f"{name} - ${price} x {quantity} = ${cost}\n"
+    output += f"Total cost: ${total_cost}"
+    print(output)
 
 def generate_receipt(name, email, cart, total_cost, address):
-    pass
-
+    print("Receipt:")
+    print(f"Name: {name}")
+    print(f"Email: {email}")
+    print("Order Details:")
+    for item in cart:
+        print(f"Product: {item['product']}, Quantity: {item['quantity']}, Price: ${item['price']}")
+    print(f"Total Cost: ${total_cost}")
+    print(f"Delivery Address: {address}")
+    print("Thank you for shopping with us! Your order will be delivered in 3 days.")
+    print("Payment will be charged after the successful delivery.")
 
 def validate_name(name):
-    pass
-
+    part = name.split()
+    # Check if the name contains both first and last names
+    if len(name.split()) < 2:
+        return False
+    elif len(part)==2:
+        for i in part:
+            if not i.isalpha():
+                return False
+        return True
+    return False
+    
 def validate_email(email):
-    pass
-
+    for i in email:
+        if i == '@':
+            return True
+    return False
 
 def main():
-    pass
+    name = input("Enter the name: ")
+    validate_name(name)
+    email = input("Enter the email address: ")
+    validate_email(email)
+    display_categories()
+    display_products(products)
+
+    cart = []
+    while True:
+        print("Please select an option:")
+        print("1. Select a product to buy")
+        print("2. Sort the products by price")
+        print("3. Go back to category selection")
+        print("4. Finish shopping")
+        choice = input()
+
+        if choice == '1':
+            print("Select a product by entering its number:")
+            for i, product in enumerate(products):
+                print(f"{i + 1}. {product['name']} - ${product['price']}")
+            product_choice = int(input())
+            if 1 <= product_choice <= len(products):
+                quantity = int(input("Enter the quantity you want to buy: "))
+                add_to_cart(cart, products[product_choice - 1], quantity)
+            else:
+                print("Invalid product number. Please try again.")
+        elif choice == '2':
+            print("Sort products by price:")
+            print("1. Ascending")
+            print("2. Descending")
+            sort_order = input()
+            if sort_order in ['1', '2']:
+                display_sorted_products(products, sort_order)
+            else:
+                print("Invalid sort order. Please try again.")
+        elif choice == '3':
+            display_categories()
+        elif choice == '4':
+            if cart:
+                display_cart(cart)
+                total_cost = sum(item['price'] * item['quantity'] for item in cart)
+                print(f"Total cost: ${total_cost}")
+                address = input("Enter your delivery address: ")
+                generate_receipt("Your Name", "youremail@example.com", cart, total_cost, address)
+            else:
+                print("Thank you for using our portal. Hope you buy something from us next time. Have a nice day!")
+            break
+        else:
+            print("Invalid choice. Please try again.")
     
 
 """ The following block makes sure that the main() function is called when the program is run. 
